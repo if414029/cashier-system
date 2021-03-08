@@ -19,6 +19,6 @@ public class ItemType {
     @Column
     private String itemTypeName;
 
-    @OneToOne(mappedBy = "itemTypeCode")
+    @OneToOne(mappedBy = "itemType")
     private Item item;
 }

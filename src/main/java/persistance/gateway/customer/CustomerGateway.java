@@ -1,15 +1,19 @@
 package persistance.gateway.customer;
 
+import javassist.NotFoundException;
 import persistance.entity.Customer;
+import service.entity.CustomerListResponse;
+import service.entity.CustomerRequest;
+import service.entity.CustomerResponse;
 
 import java.util.List;
 
 public interface CustomerGateway {
 
-    List<Customer> findAll();
+    CustomerListResponse findAll();
 
-    Customer findCustomerById(int customerId);
+    CustomerResponse findCustomerById(int customerId) throws NotFoundException, common.NotFoundException;
 
-    void createCustomer(Customer customer);
+    void createCustomer(CustomerRequest customer);
 
 }

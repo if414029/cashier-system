@@ -24,7 +24,7 @@ public class Item {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "item_type_code", referencedColumnName = "item_type_code")
-    private ItemType itemTypeCode;
+    private ItemType itemType;
 
     @OneToMany(mappedBy = "item")
     private List<Distributor> distributor;

@@ -1,22 +1,53 @@
 package persistance.gateway.transaction;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import persistance.entity.Transaction;
+import persistance.repository.TransactionRepository;
+import service.entity.TransactionListResponse;
+import service.entity.TransactionRequest;
+import service.entity.TransactionResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionJPAGateway implements TransactionGateway{
+public class TransactionJPAGateway implements TransactionGateway {
+    
+    @Autowired
+    private TransactionRepository repository;
+    
     @Override
-    public List<Transaction> findAll() {
+    public TransactionListResponse findAll() {
+        List<Transaction> transactionList = repository.findAll();
+        return constructTransactionListResponse(transactionList);
+    }
+
+    private TransactionListResponse constructTransactionListResponse(List<Transaction> transactionList) {
+        TransactionListResponse transactionListResponse = new TransactionListResponse();
+
+        List<TransactionResponse> transactionResponses = new ArrayList<>();
+        for(Transaction transaction : transactionList){
+            transactionResponses.add(constructTransactionResponse(transaction));
+        }
+
+        transactionListResponse.setListTransaction(transactionResponses);
+
+        return transactionListResponse;
+    }
+
+    @Override
+    public TransactionResponse findTransactionById(int transactionId) {
         return null;
     }
 
     @Override
-    public Transaction findTransactionById(int transactionId) {
-        return null;
+    public void createTransaction(TransactionRequest request) {
+
     }
 
-    @Override
-    public void createTransaction(Transaction transaction) {
+    private TransactionResponse constructTransactionResponse(Transaction transaction) {
+        TransactionResponse response = new TransactionResponse();
 
+
+        return response;
     }
 }

@@ -1,4 +1,4 @@
-package service;
+package service.itemType;
 
 public class ItemTypeService {
 }

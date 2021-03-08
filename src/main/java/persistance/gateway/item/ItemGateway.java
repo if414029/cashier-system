@@ -1,13 +1,17 @@
 package persistance.gateway.item;
 
-import persistance.entity.Item;
+import common.InvalidRequestException;
+import common.NotFoundException;
+import service.entity.ItemListResponse;
+import service.entity.ItemRequest;
+import service.entity.ItemResponse;
 
 import java.util.List;
 
 public interface ItemGateway {
-    List<Item> findAll();
+    ItemListResponse findAll();
 
-    Item findItemById(int itemId);
+    ItemResponse findItemById(int itemId) throws NotFoundException, InvalidRequestException;
 
-    void createItem(Item item);
+    void createItem(ItemRequest item);
 }

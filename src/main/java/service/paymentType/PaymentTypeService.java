@@ -1,4 +1,4 @@
-package service;
+package service.paymentType;
 
 public class PaymentTypeService {
 }

@@ -1,7 +1,6 @@
 package persistance.gateway.customer;
 
 import common.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import persistance.entity.Customer;
 import persistance.repository.CustomerRepository;
 import service.entity.CustomerListResponse;
@@ -13,13 +12,41 @@ import java.util.List;
 
 public class CustomerJPAGateway implements CustomerGateway {
 
-    @Autowired
-    private CustomerRepository repository;
+    private final CustomerRepository repository;
+
+    public CustomerJPAGateway(CustomerRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public CustomerListResponse findAll() {
         List<Customer> customerList = repository.findAll();
         return constructCustomerListResponse(customerList);
+    }
+
+    @Override
+    public CustomerResponse findCustomerById(int customerId) throws NotFoundException {
+        return repository.findById(customerId)
+                .map(this::constructCustomerResponse)
+                .orElseThrow(() -> new NotFoundException("Data Not Found with id : " + customerId));
+    }
+
+    @Override
+    public void createCustomer(CustomerRequest request) {
+        Customer entity = getCustomerEntity(request);
+
+        repository.save(entity);
+    }
+
+    private CustomerResponse constructCustomerResponse(Customer customer) {
+        CustomerResponse response = new CustomerResponse();
+        response.setCustomerId(customer.getCustomerId());
+        response.setCustomerName(customer.getCustomerName());
+        response.setAddress(customer.getAddress());
+        response.setGender(customer.getGender());
+        response.setPhoneNo(customer.getPhoneNo());
+
+        return response;
     }
 
     private CustomerListResponse constructCustomerListResponse(List<Customer> customerList) {
@@ -34,31 +61,6 @@ public class CustomerJPAGateway implements CustomerGateway {
         customerListResponse.setListCustomer(customerResponses);
 
         return customerListResponse;
-    }
-
-    @Override
-    public CustomerResponse findCustomerById(int customerId) throws NotFoundException {
-        return repository.findById(customerId)
-                .map(this::constructCustomerResponse)
-                .orElseThrow(() -> new NotFoundException("Data Not Found with id : " + customerId));
-    }
-
-    private CustomerResponse constructCustomerResponse(Customer customer) {
-        CustomerResponse response = new CustomerResponse();
-        response.setCustomerId(customer.getCustomerId());
-        response.setCustomerName(customer.getCustomerName());
-        response.setAddress(customer.getAddress());
-        response.setGender(customer.getGender());
-        response.setPhoneNo(customer.getPhoneNo());
-
-        return response;
-    }
-
-    @Override
-    public void createCustomer(CustomerRequest request) {
-        Customer entity = getCustomerEntity(request);
-
-        repository.save(entity);
     }
 
     private Customer getCustomerEntity(CustomerRequest request) {

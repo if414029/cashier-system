@@ -17,7 +17,7 @@ public class TransactionController {
     private Transaction transaction;
 
     @GetMapping(path = "/")
-    private ResponseEntity<Object> findAll() {
+    private ResponseEntity<Object> findAll() throws NotFoundException, InvalidRequestException {
         TransactionListResponse response =  transaction.findAll();
 
         response.setStatusCode(HttpStatus.OK.value());

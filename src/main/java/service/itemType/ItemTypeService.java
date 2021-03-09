@@ -2,12 +2,13 @@ package service.itemType;
 
 import common.InvalidRequestException;
 import common.NotFoundException;
+import org.springframework.stereotype.Service;
 import persistance.gateway.itemType.ItemTypeGateway;
-import service.entity.ItemRequest;
 import service.entity.ItemTypeListResponse;
 import service.entity.ItemTypeRequest;
 import service.entity.ItemTypeResponse;
 
+@Service
 public class ItemTypeService implements ItemType{
 
     private final ItemTypeGateway gateway;

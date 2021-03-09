@@ -1,7 +1,6 @@
 package persistance.gateway.itemType;
 
 import common.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import persistance.entity.ItemType;
 import persistance.repository.ItemTypeRepository;
 import service.entity.*;
@@ -11,8 +10,11 @@ import java.util.List;
 
 public class ItemTypeJPAGateway implements ItemTypeGateway{
 
-    @Autowired
-    private ItemTypeRepository repository;
+    private final ItemTypeRepository repository;
+
+    public ItemTypeJPAGateway(ItemTypeRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public ItemTypeListResponse findAll() {

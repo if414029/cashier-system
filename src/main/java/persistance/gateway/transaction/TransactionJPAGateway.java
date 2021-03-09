@@ -1,31 +1,20 @@
 package persistance.gateway.transaction;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import common.NotFoundException;
 import persistance.entity.Transaction;
-import persistance.gateway.customer.CustomerGateway;
-import persistance.gateway.item.ItemGateway;
-import persistance.gateway.paymentType.PaymentTypeGateway;
 import persistance.repository.TransactionRepository;
-import service.entity.TransactionListResponse;
-import service.entity.TransactionRequest;
-import service.entity.TransactionResponse;
+import service.entity.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionJPAGateway implements TransactionGateway {
-    
-    @Autowired
-    private TransactionRepository repository;
-    private final ItemGateway itemGateway;
-    private final CustomerGateway customerGateway;
-    private final PaymentTypeGateway paymentTypeGateway;
 
-    public TransactionJPAGateway(ItemGateway itemGateway, CustomerGateway customerGateway, PaymentTypeGateway paymentTypeGateway) {
-        this.itemGateway = itemGateway;
-        this.customerGateway = customerGateway;
-        this.paymentTypeGateway = paymentTypeGateway;
+    private final TransactionRepository repository;
+
+    public TransactionJPAGateway(TransactionRepository repository) {
+        this.repository = repository;
     }
 
     @Override
@@ -48,8 +37,10 @@ public class TransactionJPAGateway implements TransactionGateway {
     }
 
     @Override
-    public TransactionResponse findTransactionById(int transactionId) {
-        return null;
+    public TransactionResponse findTransactionById(int transactionId) throws NotFoundException {
+        return repository.findById(transactionId)
+                .map(this::constructTransactionResponse)
+                .orElseThrow(() -> new NotFoundException("Data Not Found with id : " + transactionId));
     }
 
     @Override
@@ -72,7 +63,13 @@ public class TransactionJPAGateway implements TransactionGateway {
 
     private TransactionResponse constructTransactionResponse(Transaction transaction) {
         TransactionResponse response = new TransactionResponse();
-
+        response.setDescription(transaction.getDescription());
+        response.setPurchaseDate(String.valueOf(transaction.getPurchaseDate()));
+        response.setTotalPrice(transaction.getTotalPrice());
+        response.setTransactionId(transaction.getTransactionId());
+        response.setCustomerId(transaction.getCustomerId());
+        response.setItems(transaction.getItemId());
+        response.setPaymentTypeCode(transaction.getPaymentTypeCode());
 
         return response;
     }

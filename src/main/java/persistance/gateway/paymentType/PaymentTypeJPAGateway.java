@@ -1,8 +1,6 @@
 package persistance.gateway.paymentType;
 
 import common.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import persistance.entity.Item;
 import persistance.entity.PaymentType;
 import persistance.repository.PaymentTypeRepository;
 import service.entity.PaymentTypeListResponse;
@@ -14,8 +12,11 @@ import java.util.List;
 
 public class PaymentTypeJPAGateway implements PaymentTypeGateway{
 
-    @Autowired
-    private PaymentTypeRepository repository;
+    private final PaymentTypeRepository repository;
+
+    public PaymentTypeJPAGateway(PaymentTypeRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public PaymentTypeListResponse findAll() {

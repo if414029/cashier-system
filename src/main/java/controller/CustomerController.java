@@ -1,7 +1,7 @@
 package controller;
 
 import common.InvalidRequestException;
-import javassist.NotFoundException;
+import common.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class CustomerController {
     }
 
     @GetMapping(path = "/{customerId}")
-    public ResponseEntity<Object> findCustomerById(@PathVariable int customerId) throws NotFoundException, InvalidRequestException {
+    public ResponseEntity<Object> findCustomerById(@PathVariable int customerId) throws InvalidRequestException, NotFoundException {
         CustomerResponse response = customer.findCustomerById(customerId);
 
         response.setStatusCode(HttpStatus.OK.value());

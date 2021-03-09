@@ -8,7 +8,11 @@ import java.util.List;
 @Getter
 @Setter
 public class TransactionResponse extends ServiceResponse {
-    private List<ItemResponse> items;
+    private int transactionId;
+    private String items;
+    private int customerId;
+    private String paymentTypeCode;
+    private List<ItemResponse> itemList;
     private CustomerResponse customer;
     private String purchaseDate;
     private String description;

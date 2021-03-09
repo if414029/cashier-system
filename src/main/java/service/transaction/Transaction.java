@@ -7,9 +7,9 @@ import service.entity.TransactionRequest;
 import service.entity.TransactionResponse;
 
 public interface Transaction {
-    TransactionListResponse findAll();
+    TransactionListResponse findAll() throws NotFoundException, InvalidRequestException;
 
-    TransactionResponse findTransactionById(int transactionId) throws InvalidRequestException;
+    TransactionResponse findTransactionById(int transactionId) throws InvalidRequestException, NotFoundException;
 
     void createTransaction(TransactionRequest request) throws InvalidRequestException, NotFoundException;
 }

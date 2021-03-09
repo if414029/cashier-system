@@ -1,11 +1,13 @@
 package service.distributor;
 
 import common.NotFoundException;
+import org.springframework.stereotype.Service;
 import persistance.gateway.distributor.DistributorGateway;
 import service.entity.DistributorListResponse;
 import service.entity.DistributorRequest;
 import service.entity.DistributorResponse;
 
+@Service
 public class DistributorService implements Distributor{
 
     private final DistributorGateway gateway;

@@ -1,7 +1,6 @@
 package persistance.gateway.distributor;
 
 import common.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import persistance.entity.Distributor;
 import persistance.repository.DistributorRepository;
 import service.entity.DistributorListResponse;
@@ -13,8 +12,11 @@ import java.util.List;
 
 public class DistributorJPAGateway implements DistributorGateway{
 
-    @Autowired
-    private DistributorRepository repository;
+    private final DistributorRepository repository;
+
+    public DistributorJPAGateway(DistributorRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public DistributorListResponse findAll() {

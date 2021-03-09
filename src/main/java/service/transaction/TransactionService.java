@@ -3,6 +3,7 @@ package service.transaction;
 import common.InvalidRequestException;
 import common.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import persistance.gateway.customer.CustomerGateway;
 import persistance.gateway.item.ItemGateway;
 import persistance.gateway.paymentType.PaymentTypeGateway;
@@ -12,6 +13,7 @@ import service.entity.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class TransactionService implements Transaction {
 
     @Autowired
@@ -28,14 +30,16 @@ public class TransactionService implements Transaction {
     }
 
     @Override
-    public TransactionListResponse findAll() {
-        return gateway.findAll();
+    public TransactionListResponse findAll() throws NotFoundException, InvalidRequestException {
+        TransactionListResponse transactionListResponse = gateway.findAll();
+        return constructTransactionListResponse(transactionListResponse);
     }
 
     @Override
-    public TransactionResponse findTransactionById(int transactionId) throws InvalidRequestException {
+    public TransactionResponse findTransactionById(int transactionId) throws InvalidRequestException, NotFoundException {
         validateRequestId(transactionId);
-        return gateway.findTransactionById(transactionId);
+        TransactionResponse transactionResponse = gateway.findTransactionById(transactionId);
+        return constructTransactionResponse(transactionResponse);
     }
 
     @Override
@@ -43,6 +47,41 @@ public class TransactionService implements Transaction {
         validateRequest(request);
         setItemsCustomerAndPaymentTypeRequest(request);
         gateway.createTransaction(request);
+    }
+
+    private TransactionListResponse constructTransactionListResponse(TransactionListResponse transactionListResponse) throws NotFoundException, InvalidRequestException {
+        TransactionListResponse response = new TransactionListResponse();
+
+        List<TransactionResponse> transactionResponses = new ArrayList<>();
+        for(TransactionResponse transactionResponse : transactionListResponse.getListTransaction()){
+            transactionResponses.add(constructTransactionResponse(transactionResponse));
+        }
+        transactionListResponse.setListTransaction(transactionResponses);
+
+        return response;
+    }
+
+    private TransactionResponse constructTransactionResponse(TransactionResponse transactionResponse) throws NotFoundException, InvalidRequestException {
+
+        TransactionResponse transaction = gateway.findTransactionById(transactionResponse.getTransactionId());
+        transactionResponse.setTransactionId(transaction.getTransactionId());
+
+        CustomerResponse customer = customerGateway.findCustomerById(transaction.getCustomerId());
+        transactionResponse.setCustomer(customer);
+
+        PaymentTypeResponse paymentType = paymentTypeGateway.findPaymentTypeByPaymentTypeCode(transaction.getPaymentTypeCode());
+        transaction.setPaymentType(paymentType);
+
+        String[] items = transaction.getItems().split(",");
+        List<ItemResponse> itemResponses = new ArrayList<>();
+
+        for(String item : items){
+            ItemResponse itemById = itemGateway.findItemById(Integer.parseInt(item));
+            itemResponses.add(itemById);
+        }
+        transactionResponse.setItemList(itemResponses);
+
+        return transactionResponse;
     }
 
     private void validateRequestId(int transactionId) throws InvalidRequestException {

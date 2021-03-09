@@ -1,11 +1,13 @@
 package service.paymentType;
 
 import common.NotFoundException;
+import org.springframework.stereotype.Service;
 import persistance.gateway.paymentType.PaymentTypeGateway;
 import service.entity.PaymentTypeListResponse;
 import service.entity.PaymentTypeRequest;
 import service.entity.PaymentTypeResponse;
 
+@Service
 public class PaymentTypeService implements PaymentType{
 
     private final PaymentTypeGateway gateway;

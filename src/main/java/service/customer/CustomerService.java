@@ -2,11 +2,13 @@ package service.customer;
 
 import common.InvalidRequestException;
 import common.NotFoundException;
+import org.springframework.stereotype.Service;
 import persistance.gateway.customer.CustomerGateway;
 import service.entity.CustomerListResponse;
 import service.entity.CustomerRequest;
 import service.entity.CustomerResponse;
 
+@Service
 public class CustomerService implements Customer {
 
     private final CustomerGateway gateway;

@@ -3,8 +3,9 @@ Build simple Rest API using Spring Boot, h2 as in memory database, JPA,
 and Swagger as documentation. This Application have 4 layer contains: controller,
 service, gateway, and repository.
 
-## Getting Started
+![image](src/main/resources/static/cashier_system.png)
 
+## Getting Started
 Run in you local
 
 - Clone this repository

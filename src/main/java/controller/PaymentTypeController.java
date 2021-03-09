@@ -7,18 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.entity.*;
-import service.transaction.Transaction;
+import service.item.Item;
+import service.paymentType.PaymentType;
 
 @RestController
-@RequestMapping("/api/v1/transactions")
-public class TransactionController {
-
+@RequestMapping("/api/v1/paymentTypes")
+public class PaymentTypeController {
     @Autowired
-    private Transaction transaction;
+    private PaymentType paymentType;
 
     @GetMapping(path = "/")
     private ResponseEntity<Object> findAll() {
-        TransactionListResponse response =  transaction.findAll();
+        PaymentTypeListResponse response =  paymentType.findAll();
 
         response.setStatusCode(HttpStatus.OK.value());
         response.setStatusMessage(HttpStatus.OK.getReasonPhrase());
@@ -26,9 +26,9 @@ public class TransactionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{transactionId}")
-    public ResponseEntity<Object> findItemById(@PathVariable int transactionId) throws NotFoundException, InvalidRequestException {
-        TransactionResponse response = transaction.findTransactionById(transactionId);
+    @GetMapping(path = "/{paymentTypeCode}")
+    public ResponseEntity<Object> findPaymentTypeByPaymentTypeCode(@PathVariable String paymentTypeCode) throws NotFoundException, InvalidRequestException {
+        PaymentTypeResponse response = paymentType.findPaymentTypeByPaymentTypeCode(paymentTypeCode);
 
         response.setStatusCode(HttpStatus.OK.value());
         response.setStatusMessage(HttpStatus.OK.getReasonPhrase());
@@ -37,15 +37,14 @@ public class TransactionController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> createTransaction(@RequestBody TransactionRequest request) throws InvalidRequestException, NotFoundException {
+    public ResponseEntity<Object> createPaymentType(@RequestBody PaymentTypeRequest request) throws InvalidRequestException, NotFoundException {
         ServiceResponse response = new ServiceResponse();
 
-        transaction.createTransaction(request);
+        paymentType.createPaymentType(request);
 
         response.setStatusCode(HttpStatus.CREATED.value());
         response.setStatusMessage(HttpStatus.CREATED.getReasonPhrase());
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatusCode()));
     }
-
 }

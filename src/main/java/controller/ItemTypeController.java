@@ -7,18 +7,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.entity.*;
-import service.transaction.Transaction;
+import service.itemType.ItemType;
 
 @RestController
-@RequestMapping("/api/v1/transactions")
-public class TransactionController {
-
+@RequestMapping("/api/v1/itemTypes")
+public class ItemTypeController {
     @Autowired
-    private Transaction transaction;
+    private ItemType itemType;
 
     @GetMapping(path = "/")
     private ResponseEntity<Object> findAll() {
-        TransactionListResponse response =  transaction.findAll();
+        ItemTypeListResponse response =  itemType.findAll();
 
         response.setStatusCode(HttpStatus.OK.value());
         response.setStatusMessage(HttpStatus.OK.getReasonPhrase());
@@ -26,9 +25,9 @@ public class TransactionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{transactionId}")
-    public ResponseEntity<Object> findItemById(@PathVariable int transactionId) throws NotFoundException, InvalidRequestException {
-        TransactionResponse response = transaction.findTransactionById(transactionId);
+    @GetMapping(path = "/{itemTypeCode}")
+    public ResponseEntity<Object> findItemTypeByItemTypeCode(@PathVariable String itemTypeCode) throws NotFoundException, InvalidRequestException {
+        ItemTypeResponse response = itemType.findItemTypeByItemTypeCode(itemTypeCode);
 
         response.setStatusCode(HttpStatus.OK.value());
         response.setStatusMessage(HttpStatus.OK.getReasonPhrase());
@@ -37,15 +36,14 @@ public class TransactionController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> createTransaction(@RequestBody TransactionRequest request) throws InvalidRequestException, NotFoundException {
+    public ResponseEntity<Object> createItemType(@RequestBody ItemTypeRequest request) throws InvalidRequestException, NotFoundException {
         ServiceResponse response = new ServiceResponse();
 
-        transaction.createTransaction(request);
+        itemType.createItemType(request);
 
         response.setStatusCode(HttpStatus.CREATED.value());
         response.setStatusMessage(HttpStatus.CREATED.getReasonPhrase());
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatusCode()));
     }
-
 }

@@ -19,6 +19,4 @@ public class PaymentType {
     @Column
     private String paymentTypeName;
 
-    @OneToOne(mappedBy = "paymentTypeCode")
-    private Transaction transaction;
 }

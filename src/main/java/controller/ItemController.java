@@ -37,7 +37,7 @@ public class ItemController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> createCustomer(@RequestBody ItemRequest request) throws InvalidRequestException {
+    public ResponseEntity<Object> createCustomer(@RequestBody ItemRequest request) throws InvalidRequestException, NotFoundException {
         ServiceResponse response = new ServiceResponse();
 
         item.createItem(request);

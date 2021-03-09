@@ -16,9 +16,8 @@ public class Transaction {
     @Column
     private String itemId;
 
-    @ManyToOne
-    @JoinColumn(name = "transaction_id", nullable = false)
-    private Customer customer;
+    @Column
+    private int customerId;
 
     @Column
     private Date purchaseDate;
@@ -29,7 +28,6 @@ public class Transaction {
     @Column
     private double totalPrice;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payment_type_code", referencedColumnName = "payment_type_code")
-    private PaymentType paymentTypeCode;
+    @Column
+    private String paymentTypeCode;
 }

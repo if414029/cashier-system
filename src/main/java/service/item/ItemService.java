@@ -2,18 +2,21 @@ package service.item;
 
 import common.InvalidRequestException;
 import common.NotFoundException;
+import persistance.gateway.distributor.DistributorGateway;
 import persistance.gateway.item.ItemGateway;
-import service.entity.ItemListResponse;
-import service.entity.ItemRequest;
-import service.entity.CustomerRequest;
-import service.entity.ItemResponse;
+import persistance.gateway.itemType.ItemTypeGateway;
+import service.entity.*;
 
 public class ItemService implements Item {
 
     private final ItemGateway gateway;
+    private final ItemTypeGateway itemTypeGateway;
+    private final DistributorGateway distributorGateway;
 
-    public ItemService(ItemGateway gateway) {
+    public ItemService(ItemGateway gateway, ItemTypeGateway itemTypeGateway, DistributorGateway distributorGateway) {
         this.gateway = gateway;
+        this.itemTypeGateway = itemTypeGateway;
+        this.distributorGateway = distributorGateway;
     }
 
     @Override
@@ -28,9 +31,18 @@ public class ItemService implements Item {
     }
 
     @Override
-    public void createItem(ItemRequest request) throws InvalidRequestException {
+    public void createItem(ItemRequest request) throws InvalidRequestException, NotFoundException {
         validateRequest(request);
+        setItemTypeCodeAndDistributorRequest(request);
         gateway.createItem(request);
+    }
+
+    private void setItemTypeCodeAndDistributorRequest(ItemRequest request) throws NotFoundException {
+        ItemTypeResponse itemTypeCode = itemTypeGateway.findItemTypeByItemTypeCode(request.getItemTypeCode());
+        request.setItemTypeCode(itemTypeCode.getItemTypeCode());
+
+        DistributorResponse distributor = distributorGateway.findDistributorById(request.getDistributorId());
+        request.setDistributorId(distributor.getDistributorId());
     }
 
     private void validateRequestId(int itemId) throws InvalidRequestException {

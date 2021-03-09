@@ -19,6 +19,4 @@ public class ItemType {
     @Column
     private String itemTypeName;
 
-    @OneToOne(mappedBy = "itemType")
-    private Item item;
 }

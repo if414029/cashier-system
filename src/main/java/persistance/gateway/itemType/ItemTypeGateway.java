@@ -1,13 +1,16 @@
 package persistance.gateway.itemType;
 
-import persistance.entity.ItemType;
+import common.NotFoundException;
+import service.entity.ItemRequest;
+import service.entity.ItemTypeListResponse;
+import service.entity.ItemTypeRequest;
+import service.entity.ItemTypeResponse;
 
-import java.util.List;
 
 public interface ItemTypeGateway {
-    List<ItemType> findAll();
+    ItemTypeListResponse findAll();
 
-    ItemType findItemTypeByCode(String itemTypeCode);
+    ItemTypeResponse findItemTypeByItemTypeCode(String itemTypeCode) throws NotFoundException;
 
-    void createItem(ItemType itemType);
+    void createItemType(ItemTypeRequest request);
 }

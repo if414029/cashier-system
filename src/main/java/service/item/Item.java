@@ -9,5 +9,5 @@ public interface Item {
 
     ItemResponse findItemById(int itemId) throws InvalidRequestException, NotFoundException;
 
-    void createItem(ItemRequest request) throws InvalidRequestException;
+    void createItem(ItemRequest request) throws InvalidRequestException, NotFoundException;
 }

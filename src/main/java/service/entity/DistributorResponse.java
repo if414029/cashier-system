@@ -1,26 +1,15 @@
-package persistance.entity;
+package service.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-
+import javax.persistence.Column;
 
 @Getter
 @Setter
-@Entity
-public class Distributor {
-
-    @Id
+public class DistributorResponse extends ServiceResponse {
     private int distributorId;
-
-    @Column
     private String distributorName;
-
-    @Column
     private String noPhone;
-
-    @Column
     private String address;
-
 }

@@ -1,13 +1,17 @@
 package persistance.gateway.paymentType;
 
+import common.NotFoundException;
 import persistance.entity.PaymentType;
+import service.entity.PaymentTypeListResponse;
+import service.entity.PaymentTypeRequest;
+import service.entity.PaymentTypeResponse;
 
 import java.util.List;
 
 public interface PaymentTypeGateway {
-    List<PaymentType> findAll();
+    PaymentTypeListResponse findAll();
 
-    PaymentType findPaymentTypeByCode(String paymentTypeCode);
+    PaymentTypeResponse findPaymentTypeByPaymentTypeCode(String paymentTypeCode) throws NotFoundException;
 
-    void createPaymentType(PaymentType paymentType);
+    void createPaymentType(PaymentTypeRequest request);
 }

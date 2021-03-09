@@ -22,10 +22,9 @@ public class Item {
     @Column
     private int stock;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_type_code", referencedColumnName = "item_type_code")
-    private ItemType itemType;
+    @Column
+    private String itemTypeCode;
 
-    @OneToMany(mappedBy = "item")
-    private List<Distributor> distributor;
+    @Column
+    private int distributorId;
 }

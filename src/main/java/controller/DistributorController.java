@@ -6,19 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import service.distributor.Distributor;
 import service.entity.*;
-import service.transaction.Transaction;
+import service.item.Item;
 
 @RestController
-@RequestMapping("/api/v1/transactions")
-public class TransactionController {
-
+@RequestMapping("/api/v1/distributors")
+public class DistributorController {
     @Autowired
-    private Transaction transaction;
+    private Distributor distributor;
 
     @GetMapping(path = "/")
     private ResponseEntity<Object> findAll() {
-        TransactionListResponse response =  transaction.findAll();
+        DistributorListResponse response =  distributor.findAll();
 
         response.setStatusCode(HttpStatus.OK.value());
         response.setStatusMessage(HttpStatus.OK.getReasonPhrase());
@@ -26,9 +26,9 @@ public class TransactionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{transactionId}")
-    public ResponseEntity<Object> findItemById(@PathVariable int transactionId) throws NotFoundException, InvalidRequestException {
-        TransactionResponse response = transaction.findTransactionById(transactionId);
+    @GetMapping(path = "/{distributorId}")
+    public ResponseEntity<Object> findDistributorById(@PathVariable int distributorId) throws NotFoundException, InvalidRequestException {
+        DistributorResponse response = distributor.findDistributorById(distributorId);
 
         response.setStatusCode(HttpStatus.OK.value());
         response.setStatusMessage(HttpStatus.OK.getReasonPhrase());
@@ -37,15 +37,14 @@ public class TransactionController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> createTransaction(@RequestBody TransactionRequest request) throws InvalidRequestException, NotFoundException {
+    public ResponseEntity<Object> createDistributor(@RequestBody DistributorRequest request) throws InvalidRequestException, NotFoundException {
         ServiceResponse response = new ServiceResponse();
 
-        transaction.createTransaction(request);
+        distributor.createDistributor(request);
 
         response.setStatusCode(HttpStatus.CREATED.value());
         response.setStatusMessage(HttpStatus.CREATED.getReasonPhrase());
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatusCode()));
     }
-
 }

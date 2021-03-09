@@ -13,7 +13,7 @@ public class ItemResponse extends ServiceResponse {
     private String itemName;
     private double price;
     private int stock;
-    private String itemTypeCode;
-    private int distributorId;
+    private ItemTypeResponse itemType;
+    private DistributorResponse distributor;
 
 }

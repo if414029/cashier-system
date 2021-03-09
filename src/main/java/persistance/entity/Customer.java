@@ -29,6 +29,4 @@ public class Customer {
     @Column
     private String address;
 
-    @OneToMany(mappedBy = "customer")
-    private List<Transaction> transaction;
 }

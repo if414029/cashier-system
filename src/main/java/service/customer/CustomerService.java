@@ -1,7 +1,7 @@
 package service.customer;
 
 import common.InvalidRequestException;
-import javassist.NotFoundException;
+import common.NotFoundException;
 import persistance.gateway.customer.CustomerGateway;
 import service.entity.CustomerListResponse;
 import service.entity.CustomerRequest;

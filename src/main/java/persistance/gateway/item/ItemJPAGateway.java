@@ -22,19 +22,6 @@ public class ItemJPAGateway implements ItemGateway{
         return constructItemListResponse(itemList);
     }
 
-    private ItemListResponse constructItemListResponse(List<Item> itemList) {
-        ItemListResponse itemListResponse = new ItemListResponse();
-
-        List<ItemResponse> itemResponses = new ArrayList<>();
-        for(Item item : itemList){
-            itemResponses.add(constructItemResponse(item));
-        }
-
-        itemListResponse.setListItem(itemResponses);
-
-        return itemListResponse;
-    }
-
     @Override
     public ItemResponse findItemById(int itemId) throws NotFoundException {
         return repository.findById(itemId)
@@ -49,12 +36,26 @@ public class ItemJPAGateway implements ItemGateway{
         repository.save(entity);
     }
 
+    private ItemListResponse constructItemListResponse(List<Item> itemList) {
+        ItemListResponse itemListResponse = new ItemListResponse();
+
+        List<ItemResponse> itemResponses = new ArrayList<>();
+        for(Item item : itemList){
+            itemResponses.add(constructItemResponse(item));
+        }
+
+        itemListResponse.setListItem(itemResponses);
+
+        return itemListResponse;
+    }
+
     private Item getItemEntity(ItemRequest request) {
         Item entity = new Item();
         entity.setItemName(request.getItemName());
         entity.setPrice(request.getPrice());
         entity.setStock(request.getStock());
-//        entity.setItemType(request.getItemTypeCode());
+        entity.setItemTypeCode(request.getItemTypeCode());
+        entity.setDistributorId(request.getDistributorId());
 
         return entity;
     }
@@ -63,7 +64,6 @@ public class ItemJPAGateway implements ItemGateway{
         ItemResponse response = new ItemResponse();
         response.setItemId(item.getItemId());
         response.setItemName(item.getItemName());
-        response.setItemTypeCode(item.getItemType().getItemTypeCode());
         response.setPrice(item.getPrice());
         response.setStock(item.getStock());
 

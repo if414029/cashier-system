@@ -50,9 +50,9 @@ public class ItemJPAGateway implements ItemGateway{
     @Override
     public ItemListResponse findSpesificItem(String itemName, String distributorName) {
 
-        if(!itemName.equalsIgnoreCase("")){
+        if(!itemName.equalsIgnoreCase(" ")){
             return constructItemListResponse(repository.getItemByItemName(itemName));
-        } else if(!distributorName.equalsIgnoreCase("")){
+        } else if(!distributorName.equalsIgnoreCase(" ")){
             return constructItemListResponse(repository.getItemByDistributorName(distributorName));
         }
 

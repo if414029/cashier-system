@@ -22,6 +22,6 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     @Query(value = "select * from item it where it.item_name = :itemName", nativeQuery = true)
     List<Item> getItemByItemName(String itemName);
 
-    @Query(value = "select * from item it inner join distributor dt ON it.distributor_id = dt.distributor_id where dt.distributor_name = :distributorName", nativeQuery = true)
+    @Query(value = "select it.* from item it inner join distributor dt ON it.distributor_id = dt.distributor_id where dt.distributor_name = :distributorName", nativeQuery = true)
     List<Item> getItemByDistributorName(String distributorName);
 }

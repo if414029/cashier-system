@@ -1,15 +1,19 @@
 package com.amos.chasiersystem.persistance.gateway.item;
 
+import antlr.StringUtils;
 import com.amos.chasiersystem.common.NotFoundException;
 import com.amos.chasiersystem.persistance.entity.Item;
 import com.amos.chasiersystem.persistance.repository.ItemRepository;
 import com.amos.chasiersystem.service.entity.ItemListResponse;
 import com.amos.chasiersystem.service.entity.ItemRequest;
 import com.amos.chasiersystem.service.entity.ItemResponse;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 public class ItemJPAGateway implements ItemGateway{
 
     private final ItemRepository repository;
@@ -41,6 +45,18 @@ public class ItemJPAGateway implements ItemGateway{
     @Override
     public void updateItem(int itemId, int stock) {
         repository.updateItemEntity(itemId, stock);
+    }
+
+    @Override
+    public ItemListResponse findSpesificItem(String itemName, String distributorName) {
+
+        if(!itemName.equalsIgnoreCase("")){
+            return constructItemListResponse(repository.getItemByItemName(itemName));
+        } else if(!distributorName.equalsIgnoreCase("")){
+            return constructItemListResponse(repository.getItemByDistributorName(distributorName));
+        }
+
+        return constructItemListResponse(repository.findAll());
     }
 
     private ItemListResponse constructItemListResponse(List<Item> itemList) {

@@ -14,4 +14,6 @@ public interface ItemGateway {
     void createItem(ItemRequest item);
 
     void updateItem(int itemId, int stock);
+
+    ItemListResponse findSpesificItem(String itemName, String distributorName);
 }

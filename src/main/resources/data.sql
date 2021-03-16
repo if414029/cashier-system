@@ -7,3 +7,5 @@ CREATE TABLE customer(
      phone_no VARCHAR(13) NOT NULL,
      address VARCHAR(250) NOT NULL
 );
+
+

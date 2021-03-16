@@ -39,6 +39,11 @@ public class ItemService implements Item {
         gateway.createItem(request);
     }
 
+    @Override
+    public ItemListResponse findSpesificItem(String itemName, String distributorName) {
+        return gateway.findSpesificItem(itemName, distributorName);
+    }
+
     private void setItemTypeCodeAndDistributorRequest(ItemRequest request) throws NotFoundException {
         ItemTypeResponse itemTypeCode = itemTypeGateway.findItemTypeByItemTypeCode(request.getItemTypeCode());
         request.setItemTypeCode(itemTypeCode.getItemTypeCode());

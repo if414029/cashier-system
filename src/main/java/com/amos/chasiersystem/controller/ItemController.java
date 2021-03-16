@@ -48,4 +48,15 @@ public class ItemController {
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatusCode()));
     }
 
+    @GetMapping(path = "/getSpesificItem/{itemName}/{distibutorName}")
+    @ResponseBody
+    public ResponseEntity<Object> findItemById(@PathVariable(required = false) String itemName, @PathVariable(required = false) String distibutorName) throws NotFoundException, InvalidRequestException {
+        ItemListResponse response = item.findSpesificItem(itemName, distibutorName);
+
+        response.setStatusCode(HttpStatus.OK.value());
+        response.setStatusMessage(HttpStatus.OK.getReasonPhrase());
+
+        return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatusCode()));
+    }
+
 }

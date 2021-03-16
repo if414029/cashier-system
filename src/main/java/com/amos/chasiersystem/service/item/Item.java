@@ -10,4 +10,6 @@ public interface Item {
     ItemResponse findItemById(int itemId) throws InvalidRequestException, NotFoundException;
 
     void createItem(ItemRequest request) throws InvalidRequestException, NotFoundException;
+
+    ItemListResponse findSpesificItem(String itemName, String distributorName);
 }
